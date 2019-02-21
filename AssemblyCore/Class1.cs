@@ -7,5 +7,6 @@ namespace AssemblyCore
 {
     public class Class1
     {
+
     }
 }
