@@ -20,9 +20,9 @@ public class CardConfig : SingletonMono<CardConfig>
     public float CardMoveOutRange = 1.5f;
     [Header( "配对成功时，移动到双方中心点耗时" )]
     public float CardMoveToMiddleTime = 1f;
-    [HideInInspector]
+    //[HideInInspector]
     [Header( "配对成功后重点停留时间" )]
-    public float MiddleStayTime = 2f;
+    public float MiddleStayTime = 1f;
     [Header( "配对动画类型" )]
     public Ease EaseType = Ease.OutElastic;
 
