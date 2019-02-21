@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;UNITY_EDITOR</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -61,7 +61,6 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Data\DataModel.cs" />
     <Compile Include="Data\UIProxy.cs" />
-    <Compile Include="EditorTool\MapEditor.cs" />
     <Compile Include="LanguageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

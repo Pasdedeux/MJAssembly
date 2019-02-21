@@ -28,6 +28,7 @@ public class LanguageModel : Singleton<LanguageModel>
 
     public string GetString( string str )
     {
+        UnityEngine.Debug.LogWarning( "No Translate : " + str );
         return str;
     }
 }
