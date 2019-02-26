@@ -6,7 +6,7 @@ using LitFramework.LitTool;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class DataModel:Singleton<DataModel>
+public partial class DataModel:Singleton<DataModel>
 {
     #region 关卡数据
 
@@ -332,7 +332,7 @@ public class DataModel:Singleton<DataModel>
         public static string Sound_NOCHOOSE = "Sound/nochoose";
         public static string Sound_BGM = "Sound/bgm";
         public static string Sound_CLICK = "Sound/click";
-
+        public static string Sound_ShopSucc = "Sound/pruchase";
     }
 
 }

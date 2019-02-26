@@ -9,6 +9,7 @@ public class CardConfig : SingletonMono<CardConfig>
     [Range( 0, 1f )]
     [Header( "不可选麻将暗度" )]
     public float CardDarkness = 144f / 255f;
+
     [Header( "麻将移动耗时" )]
     public float CardMoveNormalTime = 0.5f;
 
