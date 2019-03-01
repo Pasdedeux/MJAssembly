@@ -384,6 +384,7 @@ public partial class DataModel:Singleton<DataModel>
         public static string Sound_BGM = "Sound/bgm";
         public static string Sound_CLICK = "Sound/click";
         public static string Sound_ShopSucc = "Sound/pruchase";
+        public static string Sound_Pick = "Sound/picked";
     }
 
 }
@@ -474,6 +475,11 @@ public class BaseCard
     /// 右侧占据三个索引 (上->下)
     /// </summary>
     public int[] rightIndexs = new int[3] { -1, -1, -1 };
+
+    /// <summary>
+    /// 中间占据三个索引 (上->下)
+    /// </summary>
+    public int[] middleIndexs = new int[ 3 ] { -1, -1, -1 };
     //Image
     public SpriteRenderer sprite;
 
@@ -510,8 +516,11 @@ public class BaseCard
         rightIndexs[0] = (RowIndex - 1) * width + ColIndex + 1;
         rightIndexs[1] = RowIndex * width + ColIndex + 1;
         rightIndexs[2] = (RowIndex + 1) * width + ColIndex + 1;
-    }
 
+        middleIndexs[ 0 ] = leftIndexs[ 0 ] + 1;
+        middleIndexs[ 1 ] = leftIndexs[ 1 ] + 1;
+        middleIndexs[ 2 ] = leftIndexs[ 2 ] + 1;
+    }
 }
 
 

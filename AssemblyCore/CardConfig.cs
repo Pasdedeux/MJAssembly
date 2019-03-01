@@ -7,6 +7,10 @@ using DG.Tweening;
 public class CardConfig : SingletonMono<CardConfig> 
 {
     [Range( 0, 1f )]
+    [Header( "洗牌重叠谜之概率" )]
+    public float cardProbability = 0.5f;
+
+    [Range( 0, 1f )]
     [Header( "不可选麻将暗度" )]
     public float CardDarkness = 144f / 255f;
 
@@ -40,6 +44,17 @@ public class CardConfig : SingletonMono<CardConfig>
     [Header( "颜色渐变时间" )]
     public float colorTransTime = 0.5f;
     public List<Color> ComboColors;
+
+
+    [Header( "Gang 连消间隔" )]
+    public float GangInterval = 0.3f;
+    [Header("Gang 动画维持时间")]
+    public float GangWaitTime = 1f;
+
+    [Header( "黄色选框动画时间" )]
+    public float PickTime = 0.1f;
+    [Header( "黄色放大倍数" )]
+    public float PickScale = 1.2f;
 
 
     public Color GetComboMask(int comboLevel)
