@@ -6,7 +6,7 @@ using LitFramework.LitTool;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public partial class DataModel:Singleton<DataModel>
+public partial class DataModel : Singleton<DataModel>
 {
     #region 关卡数据
 
@@ -19,8 +19,16 @@ public partial class DataModel:Singleton<DataModel>
     /// </summary>
     public int CurrentLevel
     {
-        get { return _currentLevel < 0 ? (_currentLevel = PlayerPrefs.GetInt("CurrentLevel", 1)) : _currentLevel; }
-        set { _currentLevel = value; PlayerPrefs.SetInt("CurrentLevel", _currentLevel); }
+        get
+        {
+            return _currentLevel < 0 ? ( _currentLevel = PlayerPrefs.GetInt( "CurrentLevel", 1 ) ) : _currentLevel;
+        }
+        set
+        {
+            if ( value > TotalLevels ) return;
+            _currentLevel = value;
+            PlayerPrefs.SetInt( "CurrentLevel", _currentLevel );
+        }
     }
 
     /// <summary>
@@ -33,8 +41,12 @@ public partial class DataModel:Singleton<DataModel>
     /// </summary>
     public int UnLockedMaxLevel
     {
-        get { return PlayerPrefs.GetInt("Player_UnLockedMaxLevel", 1); }
-        set { PlayerPrefs.SetInt("Player_UnLockedMaxLevel", value); }
+        get { return PlayerPrefs.GetInt( "Player_UnLockedMaxLevel", 1 ); }
+        set
+        {
+            if ( value > TotalLevels ) return;
+            PlayerPrefs.SetInt( "Player_UnLockedMaxLevel", value );
+        }
     }
 
     private int _totalGold = -1;
@@ -43,8 +55,8 @@ public partial class DataModel:Singleton<DataModel>
     /// </summary>
     public int TotalGold
     {
-        get { return _totalGold < 0 ? (_totalGold = PlayerPrefs.GetInt("TotalGold", 0)) : _totalGold; }
-        set { _totalGold = value; PlayerPrefs.SetInt("TotalGold", _totalGold); }
+        get { return _totalGold < 0 ? ( _totalGold = PlayerPrefs.GetInt( "TotalGold", 0 ) ) : _totalGold; }
+        set { _totalGold = value; PlayerPrefs.SetInt( "TotalGold", _totalGold ); }
     }
 
     /// <summary>
@@ -52,9 +64,22 @@ public partial class DataModel:Singleton<DataModel>
     /// </summary>
     /// <param name="level"></param>
     /// <returns></returns>
-    public int GetLevelTime(int level)
+    public int GetLevelTime( int level )
     {
-        return PlayerPrefs.GetInt(string.Format("LevelTime_{0}", level), -1);
+        return PlayerPrefs.GetInt( string.Format( "LevelTime_{0}", level ), -1 );
+    }
+
+
+    /// <summary>
+    /// 获取当前关卡的记录通关时间
+    /// </summary>
+    /// <param name="level"></param>
+    /// <param name="time"></param>
+    /// <param name="force">是否强制更新 ，默认情况下低于已有时间不会更新</param>
+    public void SetLevelTime( int level, int time , bool force = false )
+    {
+        if ( !force && GetLevelTime( level ) >= time ) return;
+        PlayerPrefs.SetInt( string.Format( "LevelTime_{0}", level ), time );
     }
 
 
@@ -63,7 +88,7 @@ public partial class DataModel:Singleton<DataModel>
     /// </summary>
     /// <param name="level"></param>
     /// <returns></returns>
-    public int GetLevelStarNum(int level)
+    public int GetLevelStarNum( int level )
     {
         return PlayerPrefs.GetInt( string.Format( "LevelStarNum_{0}", level, 0 ) );
     }
@@ -73,43 +98,14 @@ public partial class DataModel:Singleton<DataModel>
     /// </summary>
     /// <param name="level"></param>
     /// <param name="starNum"></param>
-    public void SetLevelStarNum(int level , int starNum)
+    /// <param name="force">是否强制更新 ，默认情况下低于已有星数不会更新</param>
+    public void SetLevelStarNum( int level, int starNum , bool force = false )
     {
-        if ( GetLevelStarNum( level ) >= starNum ) return;
+        if ( !force && GetLevelStarNum( level ) >= starNum ) return;
         PlayerPrefs.SetInt( string.Format( "LevelStarNum_{0}", level ), starNum );
     }
     #endregion
-
-    #region 时间相关
-
-    /// <summary>
-    /// 获取时间戳Timestamp  
-    /// </summary>
-    /// <param name="dt"></param>
-    /// <returns></returns>
-    public int GetTimeStamp(DateTime dt)
-    {
-        DateTime dateStart = new DateTime(1970, 1, 1, 8, 0, 0);
-        int timeStamp = Convert.ToInt32((dt - dateStart).TotalSeconds);
-        return timeStamp;
-    }
-
-    /// <summary>
-    /// 时间戳Timestamp转换成日期
-    /// </summary>
-    /// <param name="timeStamp"></param>
-    /// <returns></returns>
-    public DateTime GetDateTime(int timeStamp)
-    {
-        DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-        long lTime = ((long)timeStamp * 10000000);
-        TimeSpan toNow = new TimeSpan(lTime);
-        DateTime targetDt = dtStart.Add(toNow);
-        return targetDt;
-    }
-
-    #endregion
-
+    
     #region 游戏设置相关
 
     public bool UseNotify
@@ -126,12 +122,12 @@ public partial class DataModel:Singleton<DataModel>
 
     public bool GetUseVibrate()
     {
-        return PlayerPrefs.GetInt("Vibrate", 1) == 1;
+        return PlayerPrefs.GetInt( "Vibrate", 1 ) == 1;
     }
 
-    public void SetUseVibrate(bool use)
+    public void SetUseVibrate( bool use )
     {
-        PlayerPrefs.SetInt("Vibrate", use ? 1 : 0 );
+        PlayerPrefs.SetInt( "Vibrate", use ? 1 : 0 );
     }
 
     #endregion
@@ -143,7 +139,7 @@ public partial class DataModel:Singleton<DataModel>
     public event Action<int> DelLevelAddCard;
     public event Action DelStartGame;
 
-    public void AddCard(int cardID)
+    public void AddCard( int cardID )
     {
         if ( DelLevelAddCard != null ) DelLevelAddCard( cardID );
     }
@@ -172,13 +168,13 @@ public partial class DataModel:Singleton<DataModel>
     public void Restart()
     {
         CurrentStarNum = 3;
-        if ( DelLevelRestartCallBack !=null) DelLevelRestartCallBack();
+        if ( DelLevelRestartCallBack != null ) DelLevelRestartCallBack();
     }
 
     public float ComboLeftTime { get; set; }
     public int ComboLevel { get; set; }
 
-    private int _hintNum = -1, _shuffleNum=-1;
+    private int _hintNum = -1, _shuffleNum = -1;
     public int HintNum
     {
         get { return _hintNum < 0 ? ( _hintNum = PlayerPrefs.GetInt( "HintNum", CardConfig.Instance.HintNum ) ) : _hintNum; }
@@ -360,11 +356,11 @@ public class BaseCard
     /// <summary>
     /// 左侧占据三个索引 (上->下)
     /// </summary>
-    public int[] leftIndexs = new int[3] { -1, -1, -1 };
+    public int[] leftIndexs = new int[ 3 ] { -1, -1, -1 };
     /// <summary>
     /// 右侧占据三个索引 (上->下)
     /// </summary>
-    public int[] rightIndexs = new int[3] { -1, -1, -1 };
+    public int[] rightIndexs = new int[ 3 ] { -1, -1, -1 };
 
     /// <summary>
     /// 中间占据三个索引 (上->下)
@@ -381,7 +377,7 @@ public class BaseCard
     public GameObject cardObj;
     #endregion
 
-    public BaseCard(int id, int layer, int index)
+    public BaseCard( int id, int layer, int index )
     {
         ID = id;
         Layer = layer;
@@ -394,18 +390,18 @@ public class BaseCard
     /// </summary>
     /// <param name="width">Width.</param>
     /// <param name="height">Height.</param>
-    public void UpdateBounds(int width, int height)
+    public void UpdateBounds( int width, int height )
     {
-        RowIndex = Mathf.FloorToInt((float)Index / width);
+        RowIndex = Mathf.FloorToInt( ( float )Index / width );
         ColIndex = Index % width;
 
-        leftIndexs[0] = (RowIndex - 1) * width + ColIndex - 1;
-        leftIndexs[1] = RowIndex * width + ColIndex - 1;
-        leftIndexs[2] = (RowIndex + 1) * width + ColIndex - 1;
+        leftIndexs[ 0 ] = ( RowIndex - 1 ) * width + ColIndex - 1;
+        leftIndexs[ 1 ] = RowIndex * width + ColIndex - 1;
+        leftIndexs[ 2 ] = ( RowIndex + 1 ) * width + ColIndex - 1;
 
-        rightIndexs[0] = (RowIndex - 1) * width + ColIndex + 1;
-        rightIndexs[1] = RowIndex * width + ColIndex + 1;
-        rightIndexs[2] = (RowIndex + 1) * width + ColIndex + 1;
+        rightIndexs[ 0 ] = ( RowIndex - 1 ) * width + ColIndex + 1;
+        rightIndexs[ 1 ] = RowIndex * width + ColIndex + 1;
+        rightIndexs[ 2 ] = ( RowIndex + 1 ) * width + ColIndex + 1;
 
         middleIndexs[ 0 ] = leftIndexs[ 0 ] + 1;
         middleIndexs[ 1 ] = leftIndexs[ 1 ] + 1;
