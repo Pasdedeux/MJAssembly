@@ -50,6 +50,8 @@ public class CardConfig : SingletonMono<CardConfig>
     public float GangInterval = 0.3f;
     [Header("Gang 动画维持时间")]
     public float GangWaitTime = 1f;
+    [Header("Gang 连消最大数量")]
+    public int GangMaxNum = 5;
 
     [Header( "黄色选框动画时间" )]
     public float PickTime = 0.1f;

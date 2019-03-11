@@ -222,11 +222,6 @@ public partial class DataModel:Singleton<DataModel>
     /// </summary>
     public void LoadConfigs()
     {
-        for ( int i = 0; i < 6; i++ )
-        {
-            if ( PlayerPrefs.GetInt( "ShopItem_" + i, 0 ) == 1 ) 
-                AddShopItem( i );
-        }
         LitTool.monoBehaviour.StartCoroutine( ILoading() );
     }
 
@@ -240,111 +235,6 @@ public partial class DataModel:Singleton<DataModel>
         }
         );
     }
-
-    #region 商城
-    public bool UseAds
-    {
-        get { return PlayerPrefs.GetInt( "UseAds", 1 ) == 1; }
-        set { PlayerPrefs.SetInt( "UseAds", value ? 1 : 0 ); }
-    }
-
-
-    public bool UseGoldenEye
-    {
-        get { return PlayerPrefs.GetInt( "UseGoldenEye", 0 ) == 1; }
-        set { PlayerPrefs.SetInt( "UseGoldenEye", value ? 1 : 0 ); }
-    }
-
-    public event Action DelUpdateShopStatus;
-    public List<int> boughtIndex = new List<int>();
-
-    public void AddShopItem(int id)
-    {
-        if( !boughtIndex.Contains(id) )
-            boughtIndex.Add( id );
-        switch ( id )
-        {
-            case 0:
-                UseGoldenEye = true;
-                break;
-            case 1:
-                DataModel.Instance.HintNum = 1001;
-                break;
-            case 2:
-                DataModel.Instance.ShuffleNum = 1001;
-                break;
-            case 3:
-                DataModel.Instance.HintNum = 1001;
-                DataModel.Instance.ShuffleNum = 1001;
-                break;
-            case 4:
-                DataModel.Instance.HintNum = 1001;
-                DataModel.Instance.ShuffleNum = 1001;
-                break;
-            case 5:
-                UseAds = false;
-                break;
-        }
-    }
-
-
-    public void UpdateShopStatus()
-    {
-        for ( int i = 0; i < boughtIndex.Count; i++ )
-        {
-            PlayerPrefs.SetInt( "ShopItem_" + boughtIndex[ i ], 1 );
-        }
-
-        if ( DelUpdateShopStatus != null ) DelUpdateShopStatus();
-    }
-
-    /// <summary>
-    /// 获取去广告价格
-    /// </summary>
-    /// <returns></returns>
-    public string GetRemoveAdsPrice()
-    {
-        //todo 临时固定美元价格
-        return "$ 2.99";
-    }
-
-    public void GetBuyList(ref List<int> buyArray)
-    {
-        buyArray.AddRange( boughtIndex );
-    }
-
-
-
-
-
-    private List<string> _shopNames = new List<string>()
-    { "Golden Eyes", "Super Bulb", "Magical Hand", "Small Pack", "BigPack" };
-    private List<string> _shopDeses = new List<string>()
-    { "Highlight free tiles", "Infinite Hints", "Infinite Hints", "", "" };
-    private List<string> _shopPrice = new List<string>()
-    { "$ 1.99", "$ 1.99", "$ 1.99", "$ 2.99", "$ 4.99" };
-    /// <summary>
-    /// 商店多个物品价格
-    /// </summary>
-    /// <param name="index"></param>
-    /// <returns></returns>
-    public string GetShopPrice(int index)
-    {
-        return LanguageModel.Instance.GetString( _shopPrice[ index ] );
-    }
-
-    public string GetShopName(int index)
-    {
-        return LanguageModel.Instance.GetString( _shopNames[ index ] );
-    }
-
-    public string GetShopDes(int index)
-    {
-        return LanguageModel.Instance.GetString( _shopDeses[ index ] );
-    }
-
-    #endregion
-
 
     public class UI
     {
