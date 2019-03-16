@@ -322,6 +322,7 @@ public enum ResultStatus
     Fail
 }
 
+[Serializable]
 /// <summary>
 /// 基础麻将数据模型
 /// </summary>
@@ -366,10 +367,15 @@ public class BaseCard
     /// 中间占据三个索引 (上->下)
     /// </summary>
     public int[] middleIndexs = new int[ 3 ] { -1, -1, -1 };
+    
     //Image
     public SpriteRenderer sprite;
 
     public BoxCollider boxColider;
+
+    public bool lockPosition = false;
+
+    public bool useLocalLayerCanUseIndex = false;
 
     #endregion
 
