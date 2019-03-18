@@ -7,8 +7,12 @@ using DG.Tweening;
 public class CardConfig : SingletonMono<CardConfig> 
 {
     [Range( 0, 1f )]
-    [Header( "洗牌重叠谜之概率" )]
+    [Header( "发牌重叠概率" )]
     public float cardProbability = 0.5f;
+
+    [Range( 0, 1f )]
+    [Header( "洗牌重叠概率" )]
+    public float cardProbability2 = 0.5f;
 
     [Range( 0, 1f )]
     [Header( "不可选麻将暗度" )]
