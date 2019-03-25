@@ -57,10 +57,23 @@ public class CardConfig : SingletonMono<CardConfig>
     [Header("Gang 连消最大数量")]
     public int GangMaxNum = 5;
 
-    [Header( "黄色选框动画时间" )]
+    [Range( 0, 3f )]
+    [Header( "黄色放大起始倍数" )]
+    public float PickStart = 1.2f;
+    [Range( 0, 3f )]
+    [Header( "黄色放大结束倍数" )]
+    public float PickEnd = 1f;
+    [Header( "黄色选框过渡时间" )]
     public float PickTime = 0.1f;
-    [Header( "黄色放大倍数" )]
-    public float PickScale = 1.2f;
+
+    [Range(0,1f)]
+    [Header( "透明动画起始" )]
+    public float AlphaStart = 0.1f;
+    [Range( 0, 1f )]
+    [Header( "透明动画结束" )]
+    public float AlphaEnd = 1f;
+    [Header( "透明动画过渡时间" )]
+    public float AlphaTime = 1.2f;
 
 
     public Color GetComboMask(int comboLevel)

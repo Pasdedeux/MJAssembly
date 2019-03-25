@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using LitFramework;
 using LitFramework.LitTool;
 using UnityEngine;
+using System.Linq;
 using UnityEngine.Assertions;
 
 public partial class DataModel : Singleton<DataModel>
@@ -35,6 +36,8 @@ public partial class DataModel : Singleton<DataModel>
     /// 总关卡数
     /// </summary>
     public int TotalLevels { get; set; }
+
+    public List<int> TotalLevelsList { get; set; }
 
     /// <summary>
     /// 已解锁关卡
@@ -226,10 +229,23 @@ public partial class DataModel : Singleton<DataModel>
         var filepath = AssetPathManager.Instance.GetStreamAssetDataPath( "levels.dat", true );
         yield return DocumentAccessor.Instance.WWWLoading( filepath, ( www ) =>
         {
-            string levels = www.text;
-            TotalLevels = levels.Split( '|' ).Length;
+            string[] levels = www.text.Split( '|' );
+
+            //性能还可以提升
+            TotalLevelsList = new List<int>( levels.Length );
+            for ( int i = 0; i < levels.Length; i++ )
+            {
+                string levenIndex = levels[ i ].Split( '_' )[ 1 ];
+                TotalLevelsList.Add( int.Parse( levenIndex ) );
+            }
+            TotalLevelsList = TotalLevelsList.GroupBy( e => e ).Select( e => e.First() ).ToList();
+            TotalLevelsList.Sort();
+
+            TotalLevels = TotalLevelsList.Count;
         }
         );
+        yield return 0;
+        GC.Collect();
     }
 
     public class UI
