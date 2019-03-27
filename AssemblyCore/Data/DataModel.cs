@@ -260,6 +260,7 @@ public partial class DataModel : Singleton<DataModel>
         public static string UI_HELP = "Prefabs/UI/Canvas_Help";
         public static string UI_SHOP = "Prefabs/UI/Canvas_Shop";
         public static string UI_LEVELS = "Prefabs/UI/Canvas_Levels";
+        public static string UI_MISSION = "Prefabs/UI/Canvas_Mission";
     }
 
     public class Sound
