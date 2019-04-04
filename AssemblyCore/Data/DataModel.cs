@@ -288,6 +288,7 @@ public partial class DataModel : Singleton<DataModel>
         public static string Sound_CLICK = "Sound/click";
         public static string Sound_ShopSucc = "Sound/pruchase";
         public static string Sound_Pick = "Sound/picked";
+        public static string Sound_Complete = "Sound/questcomplete";
     }
 
 }
@@ -343,7 +344,7 @@ public enum ResultStatus
 /// <summary>
 /// 基础麻将数据模型
 /// </summary>
-public class BaseCard
+public partial class BaseCard
 {
     #region 数据
 
@@ -394,10 +395,13 @@ public class BaseCard
 
     public bool useLocalLayerCanUseIndex = false;
 
+    public bool singleFlag = false;
+
     #endregion
 
     #region 模型
     public GameObject cardObj;
+    public bool IsVib = false;
     #endregion
 
     public BaseCard( int id, int layer, int index )
