@@ -57,13 +57,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardConfig.cs" />
     <Compile Include="Class1.cs" />
-    <Compile Include="Data\DataModel.cs" />
-    <Compile Include="Data\UIProxy.cs" />
     <Compile Include="LanguageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
